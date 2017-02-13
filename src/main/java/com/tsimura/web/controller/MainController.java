@@ -13,7 +13,6 @@ public class MainController {
 
     @GetMapping("/")
     public String index(Model model){
-        LOGGER.debug("I'm in index controller");
         return "index";
     }
 
