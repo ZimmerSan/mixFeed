@@ -2,16 +2,34 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <title>Spring Security Example </title>
+    <title>Sign up</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+            th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+    <script src="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/js/bootstrap.min.js"
+            th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+    <link href="../../static/css/main.css"
+          th:href="@{/css/main.css}" rel="stylesheet" media="screen"/>
 </head>
 <body>
-<!--/*@thymesVar id="userForm" type="com.tsimura.domain.form.UserCreateForm"*/-->
-<form action="#" th:action="@{/registration}" th:object="${userForm}" method="post">
-    <div><label> User Name : <input type="text" th:field="*{username}"/> </label></div>
-    <div><label> Password: <input type="password" th:field="*{password}"/> </label></div>
-    <div><label> Confirm Password: <input type="password" th:field="*{passwordConfirm}"/> </label></div>
-    <div><input type="submit" value="Sign Up"/></div>
-</form>
-<a th:href="@{/login}">Sign in</a>
+<div class="container">
+    <!--/*@thymesVar id="userForm" type="com.tsimura.domain.form.UserCreateForm"*/-->
+    <form action="#" th:action="@{/users/}" th:object="${userForm}" method="post" class="form-signup">
+        <h2 class="form-heading">Sign up</h2>
+        <div class="form-group" th:classappend="${error.isPresent()} ? 'has-error' : ''">
+            <input name="username" type="text" class="form-control" placeholder="Username" autofocus="true" th:field="*{username}"/>
+            <input name="password" type="password" class="form-control" placeholder="Password" th:field="*{password}"/>
+            <input name="passwordConfirm" type="password" class="form-control" placeholder="Confirm Password" th:field="*{passwordConfirm}"/>
+            <p th:if="${error.isPresent()}" class="error">Wrong user or password</p>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+        </div>
+    </form>
+    <a class="text-center" th:href="@{/login}">Sign in</a>
+</div>
 </body>
 </html>

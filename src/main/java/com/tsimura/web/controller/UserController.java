@@ -4,8 +4,7 @@ import com.tsimura.domain.form.UserCreateForm;
 import com.tsimura.service.SecurityService;
 import com.tsimura.service.UserService;
 import com.tsimura.validator.UserCreateFormValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@Slf4j
 @Controller
 public class UserController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
     private final SecurityService securityService;
@@ -44,16 +43,17 @@ public class UserController {
         return "users/all_users";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    //    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/users/")
-    public String createUser(@Valid @ModelAttribute("form") UserCreateForm form, BindingResult bindingResult) {
+    public String createUser(@Valid @ModelAttribute("userForm") UserCreateForm form, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "auth/registration";
 
-        try{
+        try {
+            log.debug("Validation correct. Form = {}", form);
             userService.create(form);
             securityService.autologin(form.getUsername(), form.getPasswordConfirm());
         } catch (DataIntegrityViolationException e) {
-            LOGGER.error("createUser error:", e);
+            log.error("createUser error:", e);
             bindingResult.reject("email.exists", "Duplicate.userForm.username");
             return "auth/registration";
         }
@@ -61,6 +61,7 @@ public class UserController {
         return "redirect:/";
     }
 
+    @PreAuthorize("@currentUserServiceImpl.canAccessUser(principal, #id)")
     @GetMapping("/users/{id}")
     public String getUserPage(@PathVariable Long id, Model model) {
         model.addAttribute("user", userService.findById(id));

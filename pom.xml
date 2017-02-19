@@ -21,7 +21,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.7</java.version>
+		<java.version>1.8</java.version>
 	</properties>
 
     <repositories>
@@ -40,6 +40,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -77,10 +81,10 @@
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-facebook</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-vkontakte</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.social</groupId>-->
+            <!--<artifactId>spring-social-vkontakte</artifactId>-->
+        <!--</dependency>-->
 
         <dependency>
 			<groupId>org.springframework.boot</groupId>
