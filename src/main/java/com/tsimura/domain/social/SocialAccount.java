@@ -12,12 +12,13 @@ public abstract class SocialAccount implements Serializable {
     @Id
     private String id;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
     private User owner;
 
     public SocialAccount(String id) {
         this.id = id;
     }
 
+    protected SocialAccount() {}
 }

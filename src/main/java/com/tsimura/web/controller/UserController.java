@@ -3,7 +3,7 @@ package com.tsimura.web.controller;
 import com.tsimura.domain.form.UserCreateForm;
 import com.tsimura.service.SecurityService;
 import com.tsimura.service.UserService;
-import com.tsimura.validator.UserCreateFormValidator;
+import com.tsimura.security.validator.UserCreateFormValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -51,7 +51,7 @@ public class UserController {
         try {
             log.debug("Validation correct. Form = {}", form);
             userService.create(form);
-            securityService.autologin(form.getUsername(), form.getPasswordConfirm());
+            securityService.autoLogin(form.getUsername(), form.getPasswordConfirm());
         } catch (DataIntegrityViolationException e) {
             log.error("createUser error:", e);
             bindingResult.reject("email.exists", "Duplicate.userForm.username");

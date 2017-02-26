@@ -1,4 +1,4 @@
-package com.tsimura.validator;
+package com.tsimura.security.validator;
 
 import com.tsimura.domain.form.UserCreateForm;
 import com.tsimura.service.UserService;

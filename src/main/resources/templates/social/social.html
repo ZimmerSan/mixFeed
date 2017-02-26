@@ -1,0 +1,30 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Social Connections</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <script th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+    <link th:href="@{/css/main.css}" rel="stylesheet" media="screen"/>
+    <link th:href="@{/css/flat-ui.min.css}" rel="stylesheet"/>
+
+    <script th:src="@{/js/vendor/html5shiv.js}"></script>
+    <script th:src="@{/js/vendor/respond.min.js}"></script>
+</head>
+<body>
+
+<form th:action="@{/connect/facebook}" method="post">
+    <input type="hidden" name="scope" value="public_profile, user_posts"/>
+    <button class="btn btn-info" type="submit">
+        <span class="fui-facebook"></span>
+    </button>
+</form>
+
+<a th:href="@{/}">Home</a>
+
+<script th:src="@{/js/flat-ui.min.js}"></script>
+
+</body>
+</html>

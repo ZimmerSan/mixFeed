@@ -1,4 +1,4 @@
-package com.tsimura.service.impl;
+package com.tsimura.security;
 
 import com.tsimura.domain.User;
 import com.tsimura.domain.security.CurrentUser;
