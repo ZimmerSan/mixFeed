@@ -1,3 +1,24 @@
 .container{
-    background-color: black;
+    padding: 100px;
+}
+
+.search-result .photo{
+    margin-bottom: 25px;
+}
+
+.user-info {
+    background-color: #34495E !important;
+}
+
+.user-info .tile-title{
+    color: #ffffff;
+}
+
+.user-info img {
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+}
+
+.result-search {
+    margin-bottom: 50px !important;
 }
