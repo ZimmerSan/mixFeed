@@ -4,52 +4,50 @@
     <title>Sign in</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
-          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
-
-    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
-            th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
-    <script src="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/js/bootstrap.min.js"
-            th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
-
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <link href="../../static/css/font-awesome/font-awesome.min.css" th:href="@{/css/font-awesome/font-awesome.min.css}" rel="stylesheet"/>
     <link href="../../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" media="screen"/>
     <link href="../../static/css/flat-ui.min.css" th:href="@{/css/flat-ui.min.css}" rel="stylesheet"/>
 
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js" th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+    <script src="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
     <script src="../../static/js/vendor/html5shiv.js" th:src="@{/js/vendor/html5shiv.js}"></script>
     <script src="../../static/js/vendor/respond.min.js" th:src="@{/js/vendor/respond.min.js}"></script>
 </head>
 <body>
 <div class="container">
-    <div class="login-form" th:classappend="${error.isPresent()} ? 'has-error' : ''">
-        <form th:action="@{/login}" method="post" class="form-signin">
-            <div class="form-group">
-                <input name="username" type="text" class="form-control login-field" placeholder="Username"
-                       id="login-name" autofocus="true"/>
-                <label class="login-field-icon fui-user" for="login-name"></label>
-            </div>
+    <div class="login-form text-center" th:classappend="${error.isPresent()} ? 'has-error' : ''">
+        <!--<form th:action="@{/login}" method="post" class="form-signin">-->
+            <!--<div class="form-group">-->
+                <!--<input name="username" type="text" class="form-control login-field" placeholder="Username"-->
+                       <!--id="login-name" autofocus="true"/>-->
+                <!--<label class="login-field-icon fui-user" for="login-name"></label>-->
+            <!--</div>-->
 
-            <div class="form-group">
-                <input name="password" type="password" class="form-control login-field" placeholder="Password"
-                       id="login-pass"/>
-                <label class="login-field-icon fui-lock" for="login-pass"></label>
-            </div>
+            <!--<div class="form-group">-->
+                <!--<input name="password" type="password" class="form-control login-field" placeholder="Password"-->
+                       <!--id="login-pass"/>-->
+                <!--<label class="login-field-icon fui-lock" for="login-pass"></label>-->
+            <!--</div>-->
 
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
 
-            <div class="form-group">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Sign in</button>
-            </div>
-        </form>
-        <div class="text-center">
-            <form th:action="@{/signin/facebook}" method="post">
-                <input type="hidden" name="scope" value="public_profile" />
-                <button class="btn btn-info" type="submit">
-                    <span class="fui-facebook"></span>
+            <!--<div class="form-group">-->
+                <!--<button class="btn btn-primary btn-lg btn-block" type="submit">Sign in</button>-->
+            <!--</div>-->
+        <!--</form>-->
+        <div class="btn-group text-center">
+            <!-- VK SIGNIN -->
+            <form class="btn form-inline" name="vk_signin" id="vk_signin" th:action="@{/signin/vkontakte}" method="post">
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                <input type="hidden" name="scope" value="wall,friends,offline" />
+                <button class="btn btn-success" type="submit">
+                    <i class="fa fa-vk" aria-hidden="true"></i>
                 </button>
             </form>
         </div>
     </div>
-    <h4 class="text-center"><a th:href="@{/registration}">Create an account</a></h4>
+    <!--<h4 class="text-center"><a th:href="@{/registration}">Create an account</a></h4>-->
 </div>
 
 <script src="../../static/js/flat-ui.min.js" th:src="@{/js/flat-ui.min.js}"></script>

@@ -1,19 +1,20 @@
 package com.tsimura.web.controller.social;
 
-import com.tsimura.domain.security.CurrentUser;
-import com.tsimura.domain.social.FacebookAccount;
+import com.tsimura.service.PhotoService;
 import com.tsimura.service.SecurityService;
-import com.tsimura.service.SocialAccountService;
+import com.vk.api.sdk.client.VkApiClient;
+import com.vk.api.sdk.exceptions.ApiException;
+import com.vk.api.sdk.exceptions.ClientException;
+import com.vk.api.sdk.httpclient.HttpTransportClient;
+import com.vk.api.sdk.objects.photos.Photo;
+import com.vk.api.sdk.objects.photos.PhotoAlbumFull;
+import com.vk.api.sdk.objects.photos.responses.GetResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.social.connect.Connection;
-import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.UsersConnectionRepository;
-import org.springframework.social.facebook.api.Facebook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,37 +28,66 @@ import java.util.Optional;
 public class SocialController {
 
     @Qualifier("facebookAccountService")
-    private final SocialAccountService<FacebookAccount> facebookAccountService;
     private final UsersConnectionRepository connectionRepository;
     private final SecurityService securityService;
-    private final Facebook facebook;
+    private final PhotoService photoService;
 
     @Autowired
-    public SocialController(SocialAccountService<FacebookAccount> facebookAccountService,
-                            UsersConnectionRepository connectionRepository,
+    public SocialController(UsersConnectionRepository connectionRepository,
                             SecurityService securityService,
-                            Facebook facebook) {
-        this.facebookAccountService = facebookAccountService;
+                            PhotoService photoService) {
         this.connectionRepository = connectionRepository;
         this.securityService = securityService;
-        this.facebook = facebook;
+        this.photoService = photoService;
     }
 
     @GetMapping("")
-    public String connectFacebook(Model model, @RequestParam Optional<String> provider, @RequestParam Optional<String> status){
+    public String rootSocial(Model model, @RequestParam Optional<String> provider, @RequestParam Optional<String> status) {
         if (provider.isPresent() && status.get().equalsIgnoreCase("ok"))
             model.addAttribute("success", provider.get());
 
-        CurrentUser user = securityService.getAuthenticatedUser();
+        VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
 
-        ConnectionRepository repository = this.connectionRepository.createConnectionRepository(user.getId().toString());
-        MultiValueMap<String, Connection<?>> allConnections = repository.findAllConnections();
-        log.debug("allConnections = {}", allConnections);
+        try {
+            Integer GROUP_ID = 142125218;
+            parseGroup(GROUP_ID.toString());
 
-        Iterable<FacebookAccount> facebookAccounts = facebookAccountService.findByOwner_Id(user.getId());
-        log.debug("facebookAccounts = {}", facebookAccounts);
+            Integer USER_ID = 352247988;
+            parseUser(USER_ID.toString());
+        } catch (ApiException | ClientException e) {
+            log.error("social exception: ", e);
+        }
 
         return "social/social";
     }
+
+    public String parseGroup(String groupIdParam) throws ClientException, ApiException {
+        Integer groupId = Integer.valueOf(groupIdParam);
+        if (groupId > 0) groupId = -groupId;
+
+        VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
+        List<PhotoAlbumFull> albumList = vk.photos().getAlbums().ownerId(groupId).execute().getItems();
+        for (PhotoAlbumFull album : albumList) {
+            GetResponse photos = vk.photos().get().ownerId(groupId).albumId(album.getId().toString()).execute();
+            List<Photo> photoList = photos.getItems();
+            for (Photo photo : photoList) photoService.save(photo);
+        }
+
+        return null;
+    }
+
+    public String parseUser(String userIdParam) throws ClientException, ApiException {
+        Integer userId = Integer.valueOf(userIdParam);
+
+        VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
+        List<String> photoIds = photoService.findIdByUserId(userId);
+        log.debug("photoIds = {}", photoIds);
+//        GetResponse execute = vk.photos().get().photoIds(photoIds).execute();
+//        for (Photo photo : execute.getItems()) {
+//            log.debug("photo = {}", photo);
+//        }
+        return null;
+    }
+
 
 }
