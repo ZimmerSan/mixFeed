@@ -25,7 +25,7 @@ public class LoginController {
     public String getLoginPage(Model model, @RequestParam Optional<String> error) {
         model.addAttribute("error", error);
 
-        return "auth/login";
+        return "login";
     }
 
 }

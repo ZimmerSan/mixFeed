@@ -33,14 +33,14 @@ import java.util.Optional;
 @Slf4j
 @Controller
 @RequestMapping("/")
-public class VkController {
+public class MainController {
 
     private final UsersConnectionRepository connectionRepository;
     private final PhotoService photoService;
     private final SecurityService securityService;
 
     @Autowired
-    public VkController(UsersConnectionRepository connectionRepository, PhotoService photoService, SecurityService securityService) {
+    public MainController(UsersConnectionRepository connectionRepository, PhotoService photoService, SecurityService securityService) {
         this.connectionRepository = connectionRepository;
         this.photoService = photoService;
         this.securityService = securityService;
@@ -58,29 +58,37 @@ public class VkController {
         Connection<VKontakte> vkConnection = repository.findPrimaryConnection(VKontakte.class);
         UserActor userActor = vkConnection.getApi().getUserActor();
 
-        List<Integer> friendIds = parseActiveUserFriends(userActor.getId());
-        List<UserXtrCounters> friends = parseUsers(friendIds);
-
-        for (UserXtrCounters friend : friends) {
-            log.debug("friend.getFirstName() = {}", friend.getFirstName());
-        }
-
-        return "index";
+        return "redirect:/friends" + "?user_id=" + userActor.getId();
     }
 
-    @GetMapping("/search")
+    @GetMapping("/photos")
     public String findUserPhotos(Model model, @RequestParam(name = "user_id") Optional<String> userIdParam) {
         if (userIdParam.isPresent()) {
             Integer userId = Integer.valueOf(userIdParam.get());
             UserXtrCounters user = parseUser(userId);
-            log.debug("user = {}", user.getScreenName());
             model.addAttribute("user", user);
 
             List<Photo> photos = photoService.findByUserId(userId);
             model.addAttribute("photos", photos);
-
         }
+
         return "photo_search";
+    }
+
+    @GetMapping("/friends")
+    public String findUserFriends(Model model, @RequestParam(name = "user_id") Optional<String> userIdParam) {
+        if (userIdParam.isPresent()) {
+            Integer userId = Integer.valueOf(userIdParam.get());
+
+            UserXtrCounters user = parseUser(userId);
+            model.addAttribute("user", user);
+
+            List<Integer> friendIds = parseActiveUserFriends(userId);
+            List<UserXtrCounters> friends = parseUsers(friendIds);
+            model.addAttribute("friends", friends);
+        }
+
+        return "friends_search";
     }
 
 
@@ -109,7 +117,7 @@ public class VkController {
 
         try {
             VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
-            List<UserXtrCounters> users = vk.users().get().userIds(userIdsStr).fields(UserField.PHOTO_200, UserField.SCREEN_NAME).execute();
+            List<UserXtrCounters> users = vk.users().get().userIds(userIdsStr).fields(UserField.PHOTO_200, UserField.DOMAIN).execute();
             return users;
         } catch (ApiException | ClientException e) {
             log.error("parseUsers error: ", e);
@@ -120,7 +128,7 @@ public class VkController {
     private UserXtrCounters parseUser(Integer userId) {
         try {
             VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
-            List<UserXtrCounters> users = vk.users().get().userIds(userId.toString()).fields(UserField.PHOTO_200, UserField.SCREEN_NAME).execute();
+            List<UserXtrCounters> users = vk.users().get().userIds(userId.toString()).fields(UserField.PHOTO_200, UserField.DOMAIN).execute();
             return users.iterator().next();
         } catch (ApiException | ClientException e) {
             log.error("parseUser error: ", e);

@@ -27,9 +27,6 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
-//    private Set<FacebookAccount> myFacebookAccounts = new HashSet<>();
-
     public User() {
         this(DEFAULT_USERNAME);
     }
