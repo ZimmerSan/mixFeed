@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sign In</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link href="/static/bootstrap/css/bootstrap.css" th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet"/>
+    <link href="/static/css/flat-ui.css" th:href="@{/css/flat-ui.css}" rel="stylesheet"/>
+    <link href="/static/css/font-awesome/font-awesome.min.css" th:href="@{/css/font-awesome/font-awesome.min.css}"
+          rel="stylesheet"/>
+    <link href="/static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" media="screen"/>
+</head>
+<body>
+<div class="container">
+    <div class="row text-center">
+        <form class="btn form-inline" name="vk_signin" id="vk_signin" th:action="@{/signin/vkontakte}" method="post">
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+            <input type="hidden" name="scope" value="wall,friends,offline"/>
+            <button class="btn btn-success" type="submit">
+                <i class="fa fa-vk" aria-hidden="true"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Load JS here for greater good =============================-->
+<th:block th:replace="fragments/scripts :: scripts"></th:block>
+
+</body>
+</html>

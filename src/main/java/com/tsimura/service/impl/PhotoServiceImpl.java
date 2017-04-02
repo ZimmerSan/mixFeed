@@ -33,8 +33,13 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
-    public Long countByUserId(int userId) {
+    public Integer countByUserId(int userId) {
         return photoRepository.countByUserId(userId);
+    }
+
+    @Override
+    public Integer groupsCountByUserId(int userId) {
+        return photoRepository.groupsCountByUserId(userId);
     }
 
     @Override

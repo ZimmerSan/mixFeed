@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="row profile-panel" th:fragment="profile-panel">
+    <!--/*@thymesVar id="user" type="com.vk.api.sdk.objects.users.UserXtrCounters"*/-->
+    <div class="col-lg-11">
+        <div class="profile-info detailed-info">
+            <div class="vertical-center">
+                <img th:src="${user.getPhoto200()}" class="big-illustration profile-img"/>
+                <span class="profile-data">
+                    <h4 th:text="${user.getFirstName() + ' ' + user.getLastName()}" class="profile-name"></h4>
+                    <span  class="profile-domain">
+                        <a th:href="'https://vk.com/' + ${user.getDomain()}">
+                            <i class="fa fa-vk" aria-hidden="true"></i>
+                            <span th:text="${user.getDomain()}"></span>
+                        </a>
+                    </span>
+                </span>
+                <span class="profile-stats">
+                    <span class="stat text-center">
+                        <!--/*@thymesVar id="photoCount" type="Integer"*/-->
+                        <h6 th:text="${photoCount}"></h6>
+                        <span th:text="photos"></span>
+                    </span>
+                    <!--/*@thymesVar id="groupsCount" type="Integer"*/-->
+                    <span th:if="${groupsCount > 0}" class="stat text-center">
+                        <h6 th:text="${groupsCount}"></h6>
+                        <span th:text="groups"></span>
+                    </span>
+                    <!--/*@thymesVar id="friendsCount" type="Integer"*/-->
+                    <span th:if="${friendsCount > 0}" class="stat text-center">
+                        <h6 th:text="${friendsCount}"></h6>
+                        <span th:text="friends"></span>
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-1">
+        <div class="profile-control text-center">
+            <div class="vertical-center">
+                <ul>
+                    <li>
+                        <a class="btn" href="/">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li th:classappend="${#httpServletRequest.getRequestURI().contains('/photos') ? 'active':''}">
+                        <a class="btn" th:href="@{/photos(user_id = ${user.getId()})}">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li th:classappend="${#httpServletRequest.getRequestURI().contains('/friends') ? 'active':''}">
+                        <a class="btn" th:href="@{/friends(user_id = ${user.getId()})}">
+                            <i class="fa fa-users" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li th:classappend="${#httpServletRequest.getRequestURI().contains('/service') ? 'active':''}">
+                        <a class="btn" href="#">
+                            <i class="fa fa-tasks" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

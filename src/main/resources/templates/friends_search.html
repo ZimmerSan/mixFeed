@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
@@ -13,39 +13,30 @@
 </head>
 <body>
 <div class="container">
-    <div class="row text-center">
-        <form method="get" th:action="@{/search}">
-            <div class="form-group">
-                <input type="text" name="user_id" placeholder="User id" class="form-control"/>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary" type="submit">Find Photos</button>
-            </div>
-        </form>
-    </div>
+    <div th:replace="fragments/search_form :: search-form"></div><!--/.search-form-->
+    <div th:replace="fragments/profile_panel :: profile-panel"></div><!--/.profile-panel-->
     <div class="row user-friends">
         <!--/*@thymesVar id="friends" type="java.util.List<com.vk.api.sdk.objects.users.UserXtrCounters>"*/-->
         <th:block th:each="i : ${#numbers.sequence( 0, friends.size() - 1)}" th:with="friend = ${friends.get(i)}">
             <div th:if="${i % 4} == 0" class="clearfix visible-md-block visible-lg-block"></div>
             <div class="col-md-3 col-lg-3">
                 <div class="profile-info tile">
-                    <img th:src="${friend.getPhoto200()}" class="tile-image big-illustration"/>
+                    <img th:src="${friend.getPhoto200()}" class="tile-image big-illustration profile-img"/>
                     <h3 th:text="${friend.getFirstName() + ' ' + friend.getLastName()}" class="tile-title"></h3>
                     <p></p>
                     <a class="btn btn-info" th:href="'https://vk.com/' + ${friend.getDomain()}">
                         <i class="fa fa-vk" aria-hidden="true"></i>
                     </a>
-                    <a class="btn btn-success" th:href="@{/search(user_id = ${friend.getId()})}">
+                    <a class="btn btn-success" th:href="@{/photos(user_id = ${friend.getId()})}">
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </a>
                 </div>
             </div>
         </th:block>
     </div>
-</div>
+</div><!-- /.container -->
 
 <!-- Load JS here for greater good =============================-->
 <th:block th:replace="fragments/scripts :: scripts"></th:block>
-
 </body>
 </html>

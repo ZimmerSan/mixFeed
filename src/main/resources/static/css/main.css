@@ -1,24 +1,160 @@
 .container{
-    padding: 100px;
+    padding: 50px;
 }
 
-.search-result .photo{
+.vertical-center {
+    min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+
+    display: flex;
+    align-items: center;
+}
+
+.search-form {
     margin-bottom: 25px;
-}
-
-.user-info {
-    background-color: #34495E !important;
-}
-
-.user-info .tile-title{
-    color: #ffffff;
-}
-
-.user-info img {
-    border: 3px solid #ffffff;
-    border-radius: 50%;
 }
 
 .result-search {
     margin-bottom: 50px !important;
+}
+
+/* User-Info */
+
+.profile-panel {
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.profile-info {
+    background-color: #34495E !important;
+}
+
+.profile-info .tile-title{
+    color: #ffffff;
+}
+
+.profile-info .profile-img {
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+}
+
+.detailed-info {
+    padding: 25px;
+}
+
+.detailed-info .profile-data,
+.detailed-info .profile-stats {
+    margin-left: 25px;
+    color: #fff;
+}
+
+.detailed-info .profile-data {
+    padding-right: 25px;
+    border-right: 1px solid #fff;
+}
+
+.detailed-info .profile-data .profile-name {
+    margin-bottom: 5px;
+}
+
+.detailed-info .profile-data .profile-domain a {
+    opacity: 0.8;
+    color: #fff;
+    -webkit-transition: 0.15s;
+    transition: 0.15s;
+}
+
+.detailed-info .profile-data .profile-domain a:hover {
+    opacity: 1;
+}
+
+
+.detailed-info .profile-stats {
+    opacity: 0.8;
+}
+
+.detailed-info .profile-stats .stat {
+    margin-right: 25px;
+    float: left;
+}
+
+.detailed-info .profile-stats .stat h6 {
+    margin-bottom: 0px;
+}
+
+.detailed-info,
+.profile-control {
+    height: 256px;
+    width: 100%;
+    border-radius: 6px;
+    position: relative;
+}
+
+.profile-control {
+    background-color: #2c3e50;
+}
+
+.profile-control ul {
+    list-style: none;
+    padding: 0 !important;
+    width: 100%;
+    margin: 0;
+}
+
+.profile-control ul li .btn {
+    font-size: 100%;
+}
+
+.profile-control ul li.active .btn {
+    color: #fff;
+}
+
+
+/* User-Friends */
+
+.user-friends .profile-info {
+    background-color: #ECF0F1 !important;
+}
+
+.user-friends .profile-info .tile-title{
+    color: #34495E !important;
+}
+
+/*
+ * Flat UI Merge
+ */
+
+/* Tile */
+
+.tile {
+    background-color: #eff0f2;
+    border-radius: 6px;
+    padding: 14px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: center;
+}
+.tile .tile-hot-ribbon {
+    display: block;
+    position: absolute;
+    right: -4px;
+    top: -4px;
+    width: 82px;
+}
+.tile p {
+    font-size: 15px;
+    margin-bottom: 33px;
+}
+.tile-image {
+    height: 100px;
+    margin: 31px 0 27px;
+    vertical-align: bottom;
+}
+.tile-image.big-illustration {
+    height: 111px;
+    margin-top: 20px;
+    width: 112px;
+}
+.tile-title {
+    font-size: 20px;
+    margin: 0;
 }

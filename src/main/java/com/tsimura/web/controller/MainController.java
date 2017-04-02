@@ -70,6 +70,12 @@ public class MainController {
 
             List<Photo> photos = photoService.findByUserId(userId);
             model.addAttribute("photos", photos);
+
+            int photoCount = photoService.countByUserId(userId);
+            model.addAttribute("photoCount", photoCount);
+
+            int groupsCount = photoService.groupsCountByUserId(userId);
+            model.addAttribute("groupsCount", groupsCount);
         }
 
         return "photo_search";
@@ -79,13 +85,19 @@ public class MainController {
     public String findUserFriends(Model model, @RequestParam(name = "user_id") Optional<String> userIdParam) {
         if (userIdParam.isPresent()) {
             Integer userId = Integer.valueOf(userIdParam.get());
-
             UserXtrCounters user = parseUser(userId);
             model.addAttribute("user", user);
 
             List<Integer> friendIds = parseActiveUserFriends(userId);
             List<UserXtrCounters> friends = parseUsers(friendIds);
             model.addAttribute("friends", friends);
+            model.addAttribute("friendsCount", friends.size());
+
+            int photoCount = photoService.countByUserId(userId);
+            model.addAttribute("photoCount", photoCount);
+
+            int groupsCount = photoService.groupsCountByUserId(userId);
+            model.addAttribute("groupsCount", groupsCount);
         }
 
         return "friends_search";
@@ -128,7 +140,7 @@ public class MainController {
     private UserXtrCounters parseUser(Integer userId) {
         try {
             VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
-            List<UserXtrCounters> users = vk.users().get().userIds(userId.toString()).fields(UserField.PHOTO_200, UserField.DOMAIN).execute();
+            List<UserXtrCounters> users = vk.users().get().userIds(userId.toString()).fields(UserField.PHOTO_200, UserField.DOMAIN, UserField.SEX).execute();
             return users.iterator().next();
         } catch (ApiException | ClientException e) {
             log.error("parseUser error: ", e);

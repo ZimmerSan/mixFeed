@@ -8,7 +8,9 @@ public interface PhotoService {
 
     Photo save(com.vk.api.sdk.objects.photos.Photo photo);
 
-    Long countByUserId(int userId);
+    Integer countByUserId(int userId);
+
+    Integer groupsCountByUserId(int userId);
 
     boolean isUserPresent(int userId);
 

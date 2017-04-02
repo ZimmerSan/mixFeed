@@ -4,70 +4,65 @@
 <head>
     <title>Photo Search</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
-          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <link href="/static/bootstrap/css/bootstrap.css" th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet"/>
+    <link href="/static/css/flat-ui.css" th:href="@{/css/flat-ui.css}" rel="stylesheet"/>
     <link href="/static/css/font-awesome/font-awesome.min.css" th:href="@{/css/font-awesome/font-awesome.min.css}"
           rel="stylesheet"/>
     <link href="/static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" media="screen"/>
-    <link href="/static/css/flat-ui.min.css" th:href="@{/css/flat-ui.min.css}" rel="stylesheet"/>
 
-    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
-            th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
-    <script src="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/js/bootstrap.min.js"
-            th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
-    <script src="/static/js/vendor/html5shiv.js" th:src="@{/js/vendor/html5shiv.js}"></script>
-    <script src="/static/js/vendor/respond.min.js" th:src="@{/js/vendor/respond.min.js}"></script>
+    <link href="/static/css/animated-masonry-gallery.css" th:href="@{/css/animated-masonry-gallery.css}"
+          rel="stylesheet" media="screen"/>
+    <link href="/static/css/hover-image.css" th:href="@{/css/hover-image.css}"
+          rel="stylesheet" media="screen"/>
 </head>
 <body>
 <div class="container">
-    <div class="row">
+    <div th:replace="fragments/search_form :: search-form"></div><!--/.search-form-->
+    <div th:replace="fragments/profile_panel :: profile-panel"></div><!--/.profile-panel-->
+    <div th:if="${photoCount > 0}" class="row">
         <div class="col-lg-12">
-            <div class="tile result-search">
-                <form>
-                    <div class="input-group">
-                        <input type="text" value="" placeholder="User id..." class="form-control"/>
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Go!</button>
-                        </span>
+            <div id="gallery">
+                <!--<div id="gallery-header">-->
+                <!--<div id="gallery-header-center">-->
+                <!--<div id="gallery-header-center-left">-->
+                <!--<div id="gallery-header-center-left-title">All Galleries</div>-->
+                <!--</div>-->
+                <!--<div id="gallery-header-center-right">-->
+                <!--<div class="gallery-header-center-right-links" id="filter-all">All</div>-->
+                <!--<div class="gallery-header-center-right-links" id="filter-studio">Studio</div>-->
+                <!--<div class="gallery-header-center-right-links" id="filter-landscape">Landscapes</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <div id="gallery-content">
+                    <div id="gallery-content-center">
+                        <!--/*@thymesVar id="photos" type="java.util.List<com.tsimura.domain.Photo>"*/-->
+                        <th:block th:each="i : ${#numbers.sequence( 0, photos.size() - 1)}"
+                                  th:with="photo=${photos.get(i)}">
+                            <div class="picture">
+                                <figure class="effect-lexi">
+                                    <img th:src="${photo.getPhoto604()}" class="all studio"/>
+                                    <figcaption>
+                                        <p>Apollo's last game of pool was so strange.</p>
+                                        <a href="#">View more</a>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                        </th:block>
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="user-control tile">
-                <a class="btn btn-success" href="/">
-                    <i class="fa fa-home" aria-hidden="true"></i>
-                </a>
-                <a class="btn btn-inverse" href="#">
-                    <i class="fa fa-tasks" aria-hidden="true"></i>
-                </a>
-            </div>
-            <div class="user-info tile">
-                <!--/*@thymesVar id="user" type="com.vk.api.sdk.objects.users.UserXtrCounters"*/-->
-                <img th:src="${user.getPhoto200()}" class="tile-image big-illustration"/>
-                <h3 th:text="${user.getFirstName() + ' ' + user.getLastName()}" class="tile-title"></h3>
-                <p></p>
-                <a class="btn btn-info" href="#">
-                    <i class="fa fa-vk" aria-hidden="true"></i>
-                </a>
-                <a class="btn btn-success btn-large" href="#">Friends</a>
-            </div>
-        </div>
-        <div class="col-lg-9">
-            <div class="search-result row text-center">
-                <!--/*@thymesVar id="photos" type="java.util.List<com.tsimura.domain.Photo>"*/-->
-                <th:block th:each="i : ${#numbers.sequence( 0, photos.size() - 1)}" th:with="photo=${photos.get(i)}">
-                    <div th:if="${i % 4} == 0" class="clearfix visible-md-block visible-lg-block"></div>
-                    <div class="photo col-md-3 col-lg-3">
-                        <img th:src="${photo.getPhoto130()}" class="img-thumbnail"/>
-                    </div>
-                </th:block>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Load JS here for greater good =============================-->
+<th:block th:replace="fragments/scripts :: scripts"></th:block>
+<script src="/static/js/jquery.isotope.min.js" th:src="@{/js/jquery.isotope.min.js}"></script>
+<script src="/static/js/animated-masonry-gallery.js" th:src="@{/js/animated-masonry-gallery.js}"></script>
+
+<input name="animation" type="hidden"/>
 </body>
 </html>
