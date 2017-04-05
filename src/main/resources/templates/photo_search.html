@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
-    <title>Photo Search</title>
+    <title>Browse Photos</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -20,6 +20,18 @@
 <body>
 <div class="container">
     <div th:replace="fragments/search_form :: search-form"></div><!--/.search-form-->
+    <div class="row breadcrumbs">
+        <div class="col-lg-12">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                <li class="active">
+                    <a href="#">Browse Photos</a>
+                </li>
+            </ul>
+        </div>
+    </div>
     <div th:replace="fragments/profile_panel :: profile-panel"></div><!--/.profile-panel-->
     <div th:if="${photoCount > 0}" class="row">
         <div class="col-lg-12">

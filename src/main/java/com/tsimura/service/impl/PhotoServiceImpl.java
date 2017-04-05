@@ -1,5 +1,6 @@
 package com.tsimura.service.impl;
 
+import com.tsimura.domain.Group;
 import com.tsimura.domain.Photo;
 import com.tsimura.repository.PhotoRepository;
 import com.tsimura.service.PhotoService;
@@ -35,6 +36,17 @@ public class PhotoServiceImpl implements PhotoService {
     @Override
     public Integer countByUserId(int userId) {
         return photoRepository.countByUserId(userId);
+    }
+
+    @Override
+    public Integer countByOwnerId(int ownerId) {
+        return photoRepository.countByOwnerId(ownerId);
+    }
+
+    @Override
+    public Integer countByGroup(Group group) {
+        int ownerId = - Integer.valueOf(group.getId());
+        return countByOwnerId(ownerId);
     }
 
     @Override

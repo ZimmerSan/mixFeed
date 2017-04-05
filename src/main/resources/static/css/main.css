@@ -1,3 +1,10 @@
+:root {
+    --action-color: #16a085;
+    --action-color-hover: #1abc9c;
+
+    --dark-color: #34495E;
+}
+
 .container{
     padding: 50px;
 }
@@ -25,7 +32,7 @@
 }
 
 .profile-info {
-    background-color: #34495E !important;
+    background-color: var(--dark-color) !important;
 }
 
 .profile-info .tile-title{
@@ -116,7 +123,7 @@
 }
 
 .user-friends .profile-info .tile-title{
-    color: #34495E !important;
+    color: var(--dark-color) !important;
 }
 
 /*
@@ -157,4 +164,82 @@
 .tile-title {
     font-size: 20px;
     margin: 0;
+}
+
+/* Groups Panel */
+
+/*	--------------------------------------------------
+	:: .groups-panel Filter
+	-------------------------------------------------- */
+.groups-panel .panel {
+    border: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+.groups-panel .panel .btn-group {
+    margin: 15px 0 30px;
+}
+.groups-panel .panel .btn-group .btn {
+    transition: background-color .3s ease;
+}
+.groups-panel .groups-table {
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+}
+.groups-panel .groups-table .checkbox {
+    margin: 0;
+    padding: 0;
+}
+.groups-panel .groups-table tbody tr:hover {
+    cursor: pointer;
+    background-color: #f3f4f5;
+}
+.groups-panel .groups-table tbody tr td {
+    padding: 10px;
+    vertical-align: middle;
+    border-top-color: #eee;
+}
+.groups-panel .groups-table tbody tr.selected td {
+    background-color: #eee;
+}
+.groups-panel .groups-table tr td:first-child {
+    width: 38px;
+}
+.groups-panel .groups-table tr td:nth-child(3) {
+    width: 35px;
+}
+
+.groups-panel .groups-table tr .refresh-group .btn {
+    color: var(--action-color);
+    background: none;
+}
+.groups-panel .groups-table tr .refresh-group .btn:hover {
+    color: #1abc9c;
+}
+
+.groups-panel .groups-table .media-photo {
+    width: 35px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+.groups-panel .groups-table .media-body {
+    display: block;
+    /* Had to use this style to force the div to expand (wasn't necessary with my bootstrap version 3.3.6) */
+}
+.groups-panel .groups-table .media-body span {
+    font-size: .8em;
+    margin-right: 20px;
+}
+.groups-panel .groups-table .media-body span.group-name {
+    color: #3498db;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: normal;
+    margin: 0;
+}
+.groups-panel .groups-table .media-body span.group-photos {
+    color: var(--action-color);
+    font-weight: 700;
 }

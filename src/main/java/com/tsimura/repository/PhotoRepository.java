@@ -13,6 +13,8 @@ public interface PhotoRepository extends PagingAndSortingRepository<Photo, Integ
 
     Integer countByUserId(int userId);
 
+    Integer countByOwnerId(int ownerId);
+
     @Query("select count(distinct p.ownerId) from Photo p where p.userId = :userId")
     Integer groupsCountByUserId(@Param("userId") int userId);
 

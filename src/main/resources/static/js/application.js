@@ -40,6 +40,7 @@ String.prototype.repeat = function(num) {
 
     // Tooltips
     $("[data-toggle=tooltip]").tooltip("show");
+    $("[data-toggle=tooltip]").tooltip("toggle");
 
     // Tags Input
     $(".tagsinput").tagsInput();

@@ -4,15 +4,11 @@ import com.tsimura.domain.Photo;
 import com.tsimura.domain.security.CurrentUser;
 import com.tsimura.service.PhotoService;
 import com.tsimura.service.SecurityService;
-import com.vk.api.sdk.client.VkApiClient;
+import com.tsimura.web.VkHelper;
 import com.vk.api.sdk.client.actors.UserActor;
-import com.vk.api.sdk.exceptions.ApiException;
-import com.vk.api.sdk.exceptions.ClientException;
-import com.vk.api.sdk.httpclient.HttpTransportClient;
-import com.vk.api.sdk.objects.friends.responses.GetResponse;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
-import com.vk.api.sdk.queries.users.UserField;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionRepository;
@@ -26,7 +22,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,8 +61,13 @@ public class MainController {
     @GetMapping("/photos")
     public String findUserPhotos(Model model, @RequestParam(name = "user_id") Optional<String> userIdParam) {
         if (userIdParam.isPresent()) {
+            try {
+                new URL(userIdParam.get());
+            } catch (MalformedURLException e) {
+                // Not an URL
+            }
             Integer userId = Integer.valueOf(userIdParam.get());
-            UserXtrCounters user = parseUser(userId);
+            UserXtrCounters user = VkHelper.parseUser(userId);
             model.addAttribute("user", user);
 
             List<Photo> photos = photoService.findByUserId(userId);
@@ -76,6 +78,8 @@ public class MainController {
 
             int groupsCount = photoService.groupsCountByUserId(userId);
             model.addAttribute("groupsCount", groupsCount);
+
+            model.addAttribute("friendsCount", CollectionUtils.size(VkHelper.parseActiveUserFriends(userId)));
         }
 
         return "photo_search";
@@ -85,13 +89,13 @@ public class MainController {
     public String findUserFriends(Model model, @RequestParam(name = "user_id") Optional<String> userIdParam) {
         if (userIdParam.isPresent()) {
             Integer userId = Integer.valueOf(userIdParam.get());
-            UserXtrCounters user = parseUser(userId);
+            UserXtrCounters user = VkHelper.parseUser(userId);
             model.addAttribute("user", user);
 
-            List<Integer> friendIds = parseActiveUserFriends(userId);
-            List<UserXtrCounters> friends = parseUsers(friendIds);
+            List<Integer> friendIds = VkHelper.parseActiveUserFriends(userId);
+            List<UserXtrCounters> friends = VkHelper.parseUsers(friendIds);
             model.addAttribute("friends", friends);
-            model.addAttribute("friendsCount", friends.size());
+            model.addAttribute("friendsCount", CollectionUtils.size(friends));
 
             int photoCount = photoService.countByUserId(userId);
             model.addAttribute("photoCount", photoCount);
@@ -101,51 +105,6 @@ public class MainController {
         }
 
         return "friends_search";
-    }
-
-
-    private List<Integer> parseActiveUserFriends(Integer userId) {
-        List<Integer> activeFriends = new ArrayList<>();
-        List<Integer> friends = parseUserFriends(userId);
-        if (friends != null)
-            for (Integer friend : friends) if (photoService.isUserPresent(friend)) activeFriends.add(friend);
-        return activeFriends;
-    }
-
-    private List<Integer> parseUserFriends(Integer userId) {
-        VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
-        try {
-            GetResponse response = vk.friends().get().userId(userId).execute();
-            return response.getItems();
-        } catch (ApiException | ClientException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private List<UserXtrCounters> parseUsers(List<Integer> userIds) {
-        List<String> userIdsStr = new ArrayList<>(userIds.size());
-        for (Integer userId : userIds) userIdsStr.add(userId.toString());
-
-        try {
-            VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
-            List<UserXtrCounters> users = vk.users().get().userIds(userIdsStr).fields(UserField.PHOTO_200, UserField.DOMAIN).execute();
-            return users;
-        } catch (ApiException | ClientException e) {
-            log.error("parseUsers error: ", e);
-        }
-        return null;
-    }
-
-    private UserXtrCounters parseUser(Integer userId) {
-        try {
-            VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
-            List<UserXtrCounters> users = vk.users().get().userIds(userId.toString()).fields(UserField.PHOTO_200, UserField.DOMAIN, UserField.SEX).execute();
-            return users.iterator().next();
-        } catch (ApiException | ClientException e) {
-            log.error("parseUser error: ", e);
-        }
-        return null;
     }
 
 }

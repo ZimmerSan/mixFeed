@@ -8,7 +8,7 @@
     <div class="col-lg-11">
         <div class="profile-info detailed-info">
             <div class="vertical-center">
-                <img th:src="${user.getPhoto200()}" class="big-illustration profile-img"/>
+                <img th:src="${user.getPhoto200() != null ? user.getPhoto200() : (user.getPhoto100() != null ? user.getPhoto100() : user.getPhoto50())}" class="big-illustration profile-img"/>
                 <span class="profile-data">
                     <h4 th:text="${user.getFirstName() + ' ' + user.getLastName()}" class="profile-name"></h4>
                     <span  class="profile-domain">
@@ -42,23 +42,21 @@
         <div class="profile-control text-center">
             <div class="vertical-center">
                 <ul>
-                    <li>
-                        <a class="btn" href="/">
-                            <i class="fa fa-home" aria-hidden="true"></i>
-                        </a>
-                    </li>
                     <li th:classappend="${#httpServletRequest.getRequestURI().contains('/photos') ? 'active':''}">
-                        <a class="btn" th:href="@{/photos(user_id = ${user.getId()})}">
+                        <a data-toggle="tooltip" data-placement="right" data-tooltip-style="light" title="Browse Photos"
+                           class="btn" th:href="@{/photos(user_id = ${user.getId()})}">
                             <i class="fa fa-search" aria-hidden="true"></i>
                         </a>
                     </li>
                     <li th:classappend="${#httpServletRequest.getRequestURI().contains('/friends') ? 'active':''}">
-                        <a class="btn" th:href="@{/friends(user_id = ${user.getId()})}">
+                        <a data-toggle="tooltip" data-placement="right" data-tooltip-style="light" title="Browse Friends"
+                           class="btn" th:href="@{/friends(user_id = ${user.getId()})}">
                             <i class="fa fa-users" aria-hidden="true"></i>
                         </a>
                     </li>
-                    <li th:classappend="${#httpServletRequest.getRequestURI().contains('/service') ? 'active':''}">
-                        <a class="btn" href="#">
+                    <li th:classappend="${#httpServletRequest.getRequestURI().contains('/groups') ? 'active':''}">
+                        <a data-toggle="tooltip" data-placement="right" data-tooltip-style="light" title="Manage Groups"
+                           class="btn" th:href="@{/groups}">
                             <i class="fa fa-tasks" aria-hidden="true"></i>
                         </a>
                     </li>
