@@ -5,12 +5,22 @@
     --dark-color: #34495E;
 }
 
-.container{
+.hidden {
+    display: none;
+}
+
+.invisible-load {
+    display: none;
+    opacity: 0.0;
+    filter: alpha(opacity=0);
+}
+
+.container {
     padding: 50px;
 }
 
 .vertical-center {
-    min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+    min-height: 100%; /* Fallback for browsers do NOT support vh unit */
 
     display: flex;
     align-items: center;
@@ -35,7 +45,7 @@
     background-color: var(--dark-color) !important;
 }
 
-.profile-info .tile-title{
+.profile-info .tile-title {
     color: #ffffff;
 }
 
@@ -73,7 +83,6 @@
 .detailed-info .profile-data .profile-domain a:hover {
     opacity: 1;
 }
-
 
 .detailed-info .profile-stats {
     opacity: 0.8;
@@ -115,14 +124,13 @@
     color: #fff;
 }
 
-
 /* User-Friends */
 
 .user-friends .profile-info {
     background-color: #ECF0F1 !important;
 }
 
-.user-friends .profile-info .tile-title{
+.user-friends .profile-info .tile-title {
     color: var(--dark-color) !important;
 }
 
@@ -140,6 +148,7 @@
     position: relative;
     text-align: center;
 }
+
 .tile .tile-hot-ribbon {
     display: block;
     position: absolute;
@@ -147,20 +156,24 @@
     top: -4px;
     width: 82px;
 }
+
 .tile p {
     font-size: 15px;
     margin-bottom: 33px;
 }
+
 .tile-image {
     height: 100px;
     margin: 31px 0 27px;
     vertical-align: bottom;
 }
+
 .tile-image.big-illustration {
     height: 111px;
     margin-top: 20px;
     width: 112px;
 }
+
 .tile-title {
     font-size: 20px;
     margin: 0;
@@ -177,35 +190,44 @@
     -moz-box-shadow: none;
     box-shadow: none;
 }
+
 .groups-panel .panel .btn-group {
     margin: 15px 0 30px;
 }
+
 .groups-panel .panel .btn-group .btn {
     transition: background-color .3s ease;
 }
+
 .groups-panel .groups-table {
     background-color: #fff;
     border-bottom: 1px solid #eee;
 }
+
 .groups-panel .groups-table .checkbox {
     margin: 0;
     padding: 0;
 }
+
 .groups-panel .groups-table tbody tr:hover {
     cursor: pointer;
     background-color: #f3f4f5;
 }
+
 .groups-panel .groups-table tbody tr td {
     padding: 10px;
     vertical-align: middle;
     border-top-color: #eee;
 }
+
 .groups-panel .groups-table tbody tr.selected td {
     background-color: #eee;
 }
+
 .groups-panel .groups-table tr td:first-child {
     width: 38px;
 }
+
 .groups-panel .groups-table tr td:nth-child(3) {
     width: 35px;
 }
@@ -214,6 +236,7 @@
     color: var(--action-color);
     background: none;
 }
+
 .groups-panel .groups-table tr .refresh-group .btn:hover {
     color: #1abc9c;
 }
@@ -224,14 +247,17 @@
     -moz-border-radius: 50%;
     border-radius: 50%;
 }
+
 .groups-panel .groups-table .media-body {
     display: block;
     /* Had to use this style to force the div to expand (wasn't necessary with my bootstrap version 3.3.6) */
 }
+
 .groups-panel .groups-table .media-body span {
     font-size: .8em;
     margin-right: 20px;
 }
+
 .groups-panel .groups-table .media-body span.group-name {
     color: #3498db;
     font-size: 14px;
@@ -239,7 +265,16 @@
     line-height: normal;
     margin: 0;
 }
+
 .groups-panel .groups-table .media-body span.group-photos {
     color: var(--action-color);
     font-weight: 700;
+}
+
+.white-popup {
+    position: relative;
+    background: #FFF;
+    padding: 20px;
+    margin: 20px auto;
+    text-align: center;
 }

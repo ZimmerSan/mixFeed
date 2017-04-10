@@ -3,8 +3,8 @@
 <head>
 </head>
 <body>
-<div class="row profile-panel" th:fragment="profile-panel">
-    <!--/*@thymesVar id="user" type="com.vk.api.sdk.objects.users.UserXtrCounters"*/-->
+<!--/*@thymesVar id="user" type="com.vk.api.sdk.objects.users.UserXtrCounters"*/-->
+<div id="profile-panel" class="row profile-panel" th:fragment="profile-panel" th:attr="data-user-id=${user.getId()}">
     <div class="col-lg-11">
         <div class="profile-info detailed-info">
             <div class="vertical-center">
@@ -18,21 +18,21 @@
                         </a>
                     </span>
                 </span>
-                <span class="profile-stats">
-                    <span class="stat text-center">
+                <span id="count-stats" class="profile-stats">
+                    <span id="photos-count-stat" class="stat text-center transient invisible-load">
                         <!--/*@thymesVar id="photoCount" type="Integer"*/-->
-                        <h6 th:text="${photoCount}"></h6>
-                        <span th:text="photos"></span>
+                        <h6 class="stat-data"></h6>
+                        <span>photos</span>
                     </span>
                     <!--/*@thymesVar id="groupsCount" type="Integer"*/-->
-                    <span th:if="${groupsCount > 0}" class="stat text-center">
-                        <h6 th:text="${groupsCount}"></h6>
-                        <span th:text="groups"></span>
+                    <span id="groups-count-stat" class="stat text-center transient invisible-load">
+                        <h6 class="stat-data"></h6>
+                        <span>groups</span>
                     </span>
                     <!--/*@thymesVar id="friendsCount" type="Integer"*/-->
-                    <span th:if="${friendsCount > 0}" class="stat text-center">
-                        <h6 th:text="${friendsCount}"></h6>
-                        <span th:text="friends"></span>
+                    <span id="friends-count-stat" class="stat text-center transient invisible-load">
+                        <h6 class="stat-data"></h6>
+                        <span>friends</span>
                     </span>
                 </span>
             </div>

@@ -27,7 +27,7 @@
         </div>
     </div>
     <div th:replace="fragments/profile_panel :: profile-panel"></div><!--/.profile-panel-->
-    <div class="row user-friends">
+    <div th:if="${friendsCount > 0}" class="row user-friends">
         <!--/*@thymesVar id="friends" type="java.util.List<com.vk.api.sdk.objects.users.UserXtrCounters>"*/-->
         <th:block th:each="i : ${#numbers.sequence( 0, friends.size() - 1)}" th:with="friend = ${friends.get(i)}">
             <div th:if="${i % 4} == 0" class="clearfix visible-md-block visible-lg-block"></div>

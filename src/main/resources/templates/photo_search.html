@@ -16,6 +16,9 @@
           rel="stylesheet" media="screen"/>
     <link href="/static/css/hover-image.css" th:href="@{/css/hover-image.css}"
           rel="stylesheet" media="screen"/>
+
+    <!-- Magnific Popup core CSS file -->
+    <link href="/static/css/instagram-popup/instagram-popup.css" th:href="@{/css/instagram-popup/instagram-popup.css}" rel="stylesheet" />
 </head>
 <body>
 <div class="container">
@@ -33,7 +36,7 @@
         </div>
     </div>
     <div th:replace="fragments/profile_panel :: profile-panel"></div><!--/.profile-panel-->
-    <div th:if="${photoCount > 0}" class="row">
+    <div th:if="${photoCount > 0}" class="row user-photos">
         <div class="col-lg-12">
             <div id="gallery">
                 <!--<div id="gallery-header">-->
@@ -53,12 +56,12 @@
                         <!--/*@thymesVar id="photos" type="java.util.List<com.tsimura.domain.Photo>"*/-->
                         <th:block th:each="i : ${#numbers.sequence( 0, photos.size() - 1)}"
                                   th:with="photo=${photos.get(i)}">
-                            <div class="picture">
+                            <div class="picture carouselGallery-carousel" th:attr="data-index=${i}, data-photo-id=${photo.getId()}">
                                 <figure class="effect-lexi">
                                     <img th:src="${photo.getPhoto604()}" class="all studio"/>
                                     <figcaption>
                                         <p>Apollo's last game of pool was so strange.</p>
-                                        <a href="#">View more</a>
+                                        <!--<a class="carouselGallery-carousel" th:href="${photo.getPhoto604()}">View more</a>-->
                                     </figcaption>
                                 </figure>
                             </div>
@@ -74,6 +77,9 @@
 <th:block th:replace="fragments/scripts :: scripts"></th:block>
 <script src="/static/js/jquery.isotope.min.js" th:src="@{/js/jquery.isotope.min.js}"></script>
 <script src="/static/js/animated-masonry-gallery.js" th:src="@{/js/animated-masonry-gallery.js}"></script>
+
+<!-- Magnific Popup core JS file -->
+<script src="/static/js/instagram-popup/instagram-popup.js" th:src="@{/js/instagram-popup/instagram-popup.js}"></script>
 
 <input name="animation" type="hidden"/>
 </body>

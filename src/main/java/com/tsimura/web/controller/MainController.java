@@ -62,6 +62,8 @@ public class MainController {
     public String findUserPhotos(Model model, @RequestParam(name = "user_id") Optional<String> userIdParam) {
         if (userIdParam.isPresent()) {
             try {
+                // TODO: 06.04.2017 implement different input formats 
+                // TODO: 06.04.2017 implement detailed photo view
                 new URL(userIdParam.get());
             } catch (MalformedURLException e) {
                 // Not an URL
@@ -78,8 +80,6 @@ public class MainController {
 
             int groupsCount = photoService.groupsCountByUserId(userId);
             model.addAttribute("groupsCount", groupsCount);
-
-            model.addAttribute("friendsCount", CollectionUtils.size(VkHelper.parseActiveUserFriends(userId)));
         }
 
         return "photo_search";
