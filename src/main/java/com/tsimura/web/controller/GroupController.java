@@ -74,17 +74,30 @@ public class GroupController {
         }
     }
 
-    private List<Photo> scanGroupPhotos(String groupIdParam) throws ClientException, ApiException {
+    private List<Photo> scanGroupPhotos(String groupIdParam) throws ClientException {
         List<Photo> scannedPhotos = new ArrayList<>();
         Integer groupId = Integer.valueOf(groupIdParam);
         if (groupId > 0) groupId = -groupId;
 
         VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
-        List<PhotoAlbumFull> albumList = vk.photos().getAlbums().ownerId(groupId).execute().getItems();
-        for (PhotoAlbumFull album : albumList) {
-            List<com.vk.api.sdk.objects.photos.Photo> photoList = vk.photos().get().ownerId(groupId).albumId(album.getId().toString()).execute().getItems();
-            for (com.vk.api.sdk.objects.photos.Photo photo : photoList) scannedPhotos.add(photoService.save(photo));
+        try {
+            List<PhotoAlbumFull> albumList = vk.photos().getAlbums().ownerId(groupId).execute().getItems();
+            for (PhotoAlbumFull album : albumList) {
+                List<com.vk.api.sdk.objects.photos.Photo> photoList = vk.photos().get().ownerId(groupId).albumId(album.getId().toString()).execute().getItems();
+                for (com.vk.api.sdk.objects.photos.Photo photo : photoList) scannedPhotos.add(photoService.save(photo));
+            }
+        } catch (ApiException e) {
+            log.error("Error", e);
         }
+
+//        try {
+//            if (true) {
+//                List<com.vk.api.sdk.objects.photos.Photo> photoList = vk.photos().get().ownerId(groupId).albumId("wall").execute().getItems();
+//                for (com.vk.api.sdk.objects.photos.Photo photo : photoList) scannedPhotos.add(photoService.save(photo));
+//            }
+//        } catch (ApiException e) {
+//           log.error("Error", e);
+//        }
         return scannedPhotos;
     }
 }

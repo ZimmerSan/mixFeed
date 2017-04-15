@@ -1,6 +1,5 @@
 package com.tsimura.web.controller;
 
-import com.tsimura.domain.Photo;
 import com.tsimura.domain.security.CurrentUser;
 import com.tsimura.service.PhotoService;
 import com.tsimura.service.SecurityService;
@@ -60,26 +59,25 @@ public class MainController {
 
     @GetMapping("/photos")
     public String findUserPhotos(Model model, @RequestParam(name = "user_id") Optional<String> userIdParam) {
+        // TODO: 11.04.2017 optimize friends search (cache or smth)
         if (userIdParam.isPresent()) {
+            String query = userIdParam.get();
+            String screenName = null;
             try {
-                // TODO: 06.04.2017 implement different input formats 
-                // TODO: 06.04.2017 implement detailed photo view
-                new URL(userIdParam.get());
+                new URL(query);
+                if (query.contains("vk.com")) {
+                    if (query.endsWith("/")) query = query.substring(0, query.length() - 1);
+                    screenName = query.substring(query.lastIndexOf("/") + 1);
+                }
             } catch (MalformedURLException e) {
-                // Not an URL
+                screenName = query;
             }
-            Integer userId = Integer.valueOf(userIdParam.get());
-            UserXtrCounters user = VkHelper.parseUser(userId);
-            model.addAttribute("user", user);
+            log.debug("screenName = {}", screenName);
 
-            List<Photo> photos = photoService.findByUserId(userId);
-            model.addAttribute("photos", photos);
-
-            int photoCount = photoService.countByUserId(userId);
-            model.addAttribute("photoCount", photoCount);
-
-            int groupsCount = photoService.groupsCountByUserId(userId);
-            model.addAttribute("groupsCount", groupsCount);
+            if (screenName != null) {
+                UserXtrCounters user = VkHelper.parseUser(screenName);
+                model.addAttribute("user", user);
+            }
         }
 
         return "photo_search";
@@ -89,7 +87,7 @@ public class MainController {
     public String findUserFriends(Model model, @RequestParam(name = "user_id") Optional<String> userIdParam) {
         if (userIdParam.isPresent()) {
             Integer userId = Integer.valueOf(userIdParam.get());
-            UserXtrCounters user = VkHelper.parseUser(userId);
+            UserXtrCounters user = VkHelper.parseUser(userIdParam.get());
             model.addAttribute("user", user);
 
             List<Integer> friendIds = VkHelper.parseActiveUserFriends(userId);

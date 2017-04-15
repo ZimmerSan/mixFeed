@@ -28,7 +28,7 @@ public class PhotoExtendedServiceImpl implements PhotoExtendedService {
         if (groupId < 0) {
             groupId = - groupId;
             Group group = groupRepository.findOne(String.valueOf(groupId));
-            UserXtrCounters user = VkHelper.parseUser(photo.getUserId());
+            UserXtrCounters user = VkHelper.parseUser(String.valueOf(photo.getUserId()));
             return new PhotoExtended(photo, group, user);
         }
         return null;

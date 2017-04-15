@@ -36,9 +36,9 @@
         </div>
     </div>
     <div th:replace="fragments/profile_panel :: profile-panel"></div><!--/.profile-panel-->
-    <div th:if="${photoCount > 0}" class="row user-photos">
+    <div class="row user-photos">
         <div class="col-lg-12">
-            <div id="gallery">
+            <div id="gallery" style="opacity: 0;">
                 <!--<div id="gallery-header">-->
                 <!--<div id="gallery-header-center">-->
                 <!--<div id="gallery-header-center-left">-->
@@ -51,23 +51,23 @@
                 <!--</div>-->
                 <!--</div>-->
                 <!--</div>-->
-                <div id="gallery-content">
-                    <div id="gallery-content-center">
-                        <!--/*@thymesVar id="photos" type="java.util.List<com.tsimura.domain.Photo>"*/-->
-                        <th:block th:each="i : ${#numbers.sequence( 0, photos.size() - 1)}"
-                                  th:with="photo=${photos.get(i)}">
-                            <div class="picture carouselGallery-carousel" th:attr="data-index=${i}, data-photo-id=${photo.getId()}">
-                                <figure class="effect-lexi">
-                                    <img th:src="${photo.getPhoto604()}" class="all studio"/>
-                                    <figcaption>
-                                        <p>Apollo's last game of pool was so strange.</p>
-                                        <!--<a class="carouselGallery-carousel" th:href="${photo.getPhoto604()}">View more</a>-->
-                                    </figcaption>
-                                </figure>
-                            </div>
-                        </th:block>
-                    </div>
-                </div>
+                <!--<div id="gallery-content">-->
+                    <!--<div id="gallery-content-center">-->
+                        <!--&lt;!&ndash;/*@thymesVar id="photos" type="java.util.List<com.tsimura.domain.Photo>"*/&ndash;&gt;-->
+                        <!--<th:block th:each="i : ${#numbers.sequence( 0, photos.size() - 1)}"-->
+                                  <!--th:with="photo=${photos.get(i)}">-->
+                            <!--<div class="picture carouselGallery-carousel" th:attr="data-index=${i}, data-photo-id=${photo.getId()}">-->
+                                <!--<figure class="effect-lexi">-->
+                                    <!--<img th:src="${photo.getPhoto604()}" class="all studio"/>-->
+                                    <!--<figcaption>-->
+                                        <!--<p>Apollo's last game of pool was so strange.</p>-->
+                                        <!--&lt;!&ndash;<a class="carouselGallery-carousel" th:href="${photo.getPhoto604()}">View more</a>&ndash;&gt;-->
+                                    <!--</figcaption>-->
+                                <!--</figure>-->
+                            <!--</div>-->
+                        <!--</th:block>-->
+                    <!--</div>-->
+                <!--</div>-->
             </div>
         </div>
     </div>

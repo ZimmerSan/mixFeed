@@ -64,10 +64,10 @@ public class VkHelper {
         return null;
     }
 
-    public static UserXtrCounters parseUser(Integer userId) {
+    public static UserXtrCounters parseUser(String userId) {
         try {
             VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
-            List<UserXtrCounters> users = vk.users().get().userIds(userId.toString()).fields(UserField.PHOTO_200, UserField.DOMAIN, UserField.SEX).execute();
+            List<UserXtrCounters> users = vk.users().get().userIds(userId).fields(UserField.PHOTO_200, UserField.DOMAIN, UserField.SEX).execute();
             return users.iterator().next();
         } catch (ApiException | ClientException e) {
             log.error("parseUser error: ", e);
