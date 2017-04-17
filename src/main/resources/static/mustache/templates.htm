@@ -1,0 +1,37 @@
+<script id="tpl-group-row" type="text/html">
+    <tr class="group-row" data-group-id="{{id}}">
+        <td>
+            <label class="checkbox" for="{{id}}">
+                <input type="checkbox" value="" id="{{id}}" data-toggle="checkbox"/>
+            </label>
+        </td>
+        <td>
+            <div class="media vertical-center">
+                <a href="#" class="pull-left">
+                    <img src="{{photo200}}" class="media-photo"/>
+                </a>
+                <div class="media-body">
+                    <span class="group-name">{{name}}</span>
+                    <span class="group-photos"> Count Here </span>
+                </div>
+            </div>
+        </td>
+        <td>
+            <form class="refresh-group">
+                <button class="btn" name="group_id" value="{{id}}">
+                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                </button>
+            </form>
+        </td>
+    </tr>
+</script>
+<script id="tpl-photo-small" type="text/html">
+    <div class="picture carouselGallery-carousel" data-index="{{i}}" data-photo-id="{{id}}">
+        <figure class="effect-lexi">
+            <img src="{{photo604}}" class="all studio"/>
+            <figcaption>
+                <p>Short Description Here</p>
+            </figcaption>
+        </figure>
+    </div>
+</script>

@@ -27,17 +27,17 @@ public class PhotoRestController {
     }
 
     @GetMapping
-    Collection<Photo> getPhotos() {
+    Collection<Photo> readPhotos() {
         return this.photoService.findAll();
     }
 
     @GetMapping("/{photoId}")
-    Photo getPhoto(@PathVariable Integer photoId) {
+    Photo readPhoto(@PathVariable Integer photoId) {
         return this.photoService.findOne(photoId);
     }
 
     @GetMapping("/{photoId}/extended")
-    PhotoExtended getPhotoExtended(@PathVariable Integer photoId) {
+    PhotoExtended readPhotoExtended(@PathVariable Integer photoId) {
         return this.photoExtendedService.findOne(photoId);
     }
 

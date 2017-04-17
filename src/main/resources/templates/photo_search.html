@@ -51,23 +51,9 @@
                 <!--</div>-->
                 <!--</div>-->
                 <!--</div>-->
-                <!--<div id="gallery-content">-->
-                    <!--<div id="gallery-content-center">-->
-                        <!--&lt;!&ndash;/*@thymesVar id="photos" type="java.util.List<com.tsimura.domain.Photo>"*/&ndash;&gt;-->
-                        <!--<th:block th:each="i : ${#numbers.sequence( 0, photos.size() - 1)}"-->
-                                  <!--th:with="photo=${photos.get(i)}">-->
-                            <!--<div class="picture carouselGallery-carousel" th:attr="data-index=${i}, data-photo-id=${photo.getId()}">-->
-                                <!--<figure class="effect-lexi">-->
-                                    <!--<img th:src="${photo.getPhoto604()}" class="all studio"/>-->
-                                    <!--<figcaption>-->
-                                        <!--<p>Apollo's last game of pool was so strange.</p>-->
-                                        <!--&lt;!&ndash;<a class="carouselGallery-carousel" th:href="${photo.getPhoto604()}">View more</a>&ndash;&gt;-->
-                                    <!--</figcaption>-->
-                                <!--</figure>-->
-                            <!--</div>-->
-                        <!--</th:block>-->
-                    <!--</div>-->
-                <!--</div>-->
+                <div id="gallery-content">
+                    <div id="gallery-content-center"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -75,8 +61,6 @@
 
 <!-- Load JS here for greater good =============================-->
 <th:block th:replace="fragments/scripts :: scripts"></th:block>
-<script src="/static/js/jquery.isotope.min.js" th:src="@{/js/jquery.isotope.min.js}"></script>
-<script src="/static/js/animated-masonry-gallery.js" th:src="@{/js/animated-masonry-gallery.js}"></script>
 
 <!-- Magnific Popup core JS file -->
 <script src="/static/js/instagram-popup/instagram-popup.js" th:src="@{/js/instagram-popup/instagram-popup.js}"></script>

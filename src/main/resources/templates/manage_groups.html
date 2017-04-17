@@ -5,6 +5,8 @@
     <title>Manage Groups</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
     <link href="/static/bootstrap/css/bootstrap.css" th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet"/>
     <link href="/static/css/flat-ui.css" th:href="@{/css/flat-ui.css}" rel="stylesheet"/>
@@ -54,37 +56,7 @@
                             </div>
                         </div>
                         <div class="table-container">
-                            <table class="table groups-table">
-                                <tbody>
-                                <!--/*@thymesVar id="groups" type="java.util.List<com.tsimura.domain.Group>"*/-->
-                                <th:block th:each="i : ${#numbers.sequence( 0, groups.size() - 1)}" th:with="group = ${groups.get(i)}">
-                                    <tr data-status="enter_here">
-                                        <td>
-                                            <label class="checkbox" th:for="${'checkbox' + i}">
-                                                <input type="checkbox" value="" th:id="${'checkbox' + i}" data-toggle="checkbox"/>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <div class="media vertical-center">
-                                                <a href="#" class="pull-left">
-                                                    <img th:src="${group.getPhoto200()}" class="media-photo"/>
-                                                </a>
-                                                <div class="media-body">
-                                                    <span class="group-name" th:text="${group.getName()}"></span>
-                                                    <span class="group-photos" th:text="${countMap.get(group) + ' photos'}"></span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <form th:action="@{/groups}" method="post" class="refresh-group">
-                                                <button class="btn" name="group_id" th:value="${group.getId()}">
-                                                    <i class="fa fa-refresh" aria-hidden="true"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </th:block>
-                                </tbody>
+                            <table id="groups-table" class="table groups-table">
                             </table>
                         </div>
                     </div>

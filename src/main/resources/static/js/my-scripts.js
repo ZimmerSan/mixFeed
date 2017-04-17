@@ -13,80 +13,71 @@ jQuery(function ($) {
             getUserPhotos(user_id, showUserPhotos);
         }
 
+        if ($('#groups-table').length) {
+            showGroups();
+        }
     });
 
-    var showUserPhotos = function (photos) {
+    var $body = $('body');
 
-        var num = photos.length;
-        var container = $('<div />');
-        for (var i = 0; i < num; i++) {
-            container.append(
-                '<div class="picture carouselGallery-carousel" data-index="' + i + '" data-photo-id="' + photos[i].id + '">' +
-                '<figure class="effect-lexi">' +
-                '<img src="' + photos[i].photo604 + '" class="all studio"/>' +
-                '<figcaption>' +
-                '<p>Apollos last game of pool was so strange.</p>' +
-                '</figcaption>' +
-                '</figure>' +
-                '</div>');
-        }
+    $body.delegate('form.refresh-group', 'submit', function (event) {
+        event.preventDefault();
+        var $form = $(event.currentTarget);
+        var group_id = $form.find('button[name=group_id]').val();
 
-        $('#gallery')
-            .html('<div id="gallery-content"><div id="gallery-content-center">' + container.html() + '</div></div>')
-            .delay(num * 100 < 1500 ? num * 100 : 1500)
-            .queue(function() {
-                galleryMasonryInit();
-                $('#gallery').dequeue();
+        $.ajax({
+            type: "PUT",
+            url: 'api/groups/' + group_id,
+            data: $form.serialize(), // serializes the form's elements. Needed for CSRF token
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    });
+
+    var showGroups = function () {
+        $.get('api/groups', function (groups) {
+            $.get('mustache/templates.htm', function (templates) {
+                var template = $(templates).filter('#tpl-group-row').html();
+
+                var tbody = $('<tbody />');
+                for (let group of groups) {
+                    tbody.append(Mustache.render(template, group));
+                }
+                $body.find('#groups-table').append(tbody);
+
+                //used to enable checkboxes
+                callWhenReady('#groups-table tbody', function () {
+                    $('[data-toggle="checkbox"]').each(function () {
+                        var $checkbox = $(this);
+                        $checkbox.checkbox();
+                    });
+                });
             });
-
-        $('#gallery').delay(1000).fadeTo(500, 1);
-
-        // $('#gallery').delay(10000).fadeTo('slow', 1);
+        });
     };
 
-    var galleryMasonryInit = function () {
-        var button = 1;
-        var button_class = "gallery-header-center-right-links-current";
-        var $container = $('#gallery-content-center');
+    var showUserPhotos = function (photos) {
+        $.get('mustache/templates.htm', function (templates) {
+            var template = $(templates).filter('#tpl-photo-small').html();
+            var $gallery_content_center = $('#gallery-content-center');
 
-        $container.isotope({
-            itemSelector: '.picture'
-        });
-
-
-        function check_button() {
-            $('.gallery-header-center-right-links').removeClass(button_class);
-            if (button == 1) {
-                $("#filter-all").addClass(button_class);
-                $("#gallery-header-center-left-title").html('All Galleries');
+            var $photos = $();
+            var num = photos.length;
+            for (var i = 0; i < num; i++) {
+                var photo = photos[i];
+                photo.i = i;
+                $photos = $photos.add(Mustache.render(template, photo));
             }
-            if (button == 2) {
-                $("#filter-studio").addClass(button_class);
-                $("#gallery-header-center-left-title").html('Studio Gallery');
-            }
-            if (button == 3) {
-                $("#filter-landscape").addClass(button_class);
-                $("#gallery-header-center-left-title").html('Landscape Gallery');
-            }
-        }
 
-        $("#filter-all").click(function () {
-            $container.isotope({filter: '.all'});
-            button = 1;
-            check_button();
+            $gallery_content_center.append($photos);
+            $gallery_content_center.waitForImages(function() {
+                $gallery_content_center.isotope({
+                    itemSelector: '.picture'
+                });
+                $('#gallery').delay(500).fadeTo('slow', 1);
+            });
         });
-        $("#filter-studio").click(function () {
-            $container.isotope({filter: '.studio'});
-            button = 2;
-            check_button();
-        });
-        $("#filter-landscape").click(function () {
-            $container.isotope({filter: '.landscape'});
-            button = 3;
-            check_button();
-        });
-
-        check_button();
     };
 
     var showPhotosCountStat = function (count) {
@@ -146,4 +137,25 @@ jQuery(function ($) {
             }
         });
     };
+
+    var getAllGroups = function (user_id, callback) {
+        $.ajax({
+            url: "api/groups",
+            success: function (data) {
+                callback(data);
+            }
+        });
+    };
+
+    var callWhenReady = function (selector, callback, scope) {
+        if (!$(selector).length) return;
+        var self = this;
+        if ($(selector).closest('body').length) {
+            callback.call(scope);
+        } else {
+            setTimeout(function () {
+                self.callWhenReady(selector, callback, scope);
+            }, 1);
+        }
+    }
 });

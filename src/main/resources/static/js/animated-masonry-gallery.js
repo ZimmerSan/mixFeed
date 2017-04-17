@@ -3,11 +3,6 @@ $(window).load(function () {
 var button = 1;
 var button_class = "gallery-header-center-right-links-current";
 var $container = $('#gallery-content-center');
-    
-$container.isotope({
-	itemSelector : '.picture'
-});
-
 
 function check_button(){
 	$('.gallery-header-center-right-links').removeClass(button_class);

@@ -60,6 +60,9 @@ public class MainController {
     @GetMapping("/photos")
     public String findUserPhotos(Model model, @RequestParam(name = "user_id") Optional<String> userIdParam) {
         // TODO: 11.04.2017 optimize friends search (cache or smth)
+        // TODO: 16.04.2017 make different page titles
+        // TODO: 16.04.2017 make groups bulk update
+        // TODO: 16.04.2017 make groups update perform via AJAX
         if (userIdParam.isPresent()) {
             String query = userIdParam.get();
             String screenName = null;
