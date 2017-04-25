@@ -10,22 +10,22 @@ import javax.persistence.*;
 public class Photo {
 
     @Id
-    int id;
+    private int id;
 
     @Column(name = "album_id")
-    int albumId;
+    private int albumId;
 
     @Column(name = "owner_id")
-    int ownerId;
+    private int ownerId;
 
     @Column(name = "user_id")
-    int userId;
+    private int userId;
 
     @Column(name = "photo_130")
-    String photo130;
+    private String photo130;
     
     @Column(name = "photo_604")
-    String photo604;
+    private String photo604;
 
     public Photo() {
     }

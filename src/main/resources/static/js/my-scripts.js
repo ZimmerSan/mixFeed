@@ -22,15 +22,28 @@ jQuery(function ($) {
 
     $body.delegate('form.refresh-group', 'submit', function (event) {
         event.preventDefault();
-        var $form = $(event.currentTarget);
-        var group_id = $form.find('button[name=group_id]').val();
+        let $form = $(event.currentTarget);
+        let $button = $form.find('button[name=group_id]');
+        let $count = $form.closest('.group-row').find('.group-photos');
+        let group_id = $button.val();
+
+        var csrf_token = $("meta[name='_csrf']").attr("content");
+        var csrf_header = $("meta[name='_csrf_header']").attr("content");
 
         $.ajax({
             type: "PUT",
+            beforeSend: function (request) {
+                request.setRequestHeader(csrf_header, csrf_token);
+                $button.fadeOut();
+                $count.text("loading...");
+            },
+            complete: function () {
+                $button.fadeIn();
+            },
             url: 'api/groups/' + group_id,
             data: $form.serialize(), // serializes the form's elements. Needed for CSRF token
             success: function (data) {
-                console.log(data);
+                $count.text(data.photosCount);
             }
         });
     });
@@ -71,7 +84,7 @@ jQuery(function ($) {
             }
 
             $gallery_content_center.append($photos);
-            $gallery_content_center.waitForImages(function() {
+            $gallery_content_center.waitForImages(function () {
                 $gallery_content_center.isotope({
                     itemSelector: '.picture'
                 });
@@ -158,4 +171,5 @@ jQuery(function ($) {
             }, 1);
         }
     }
+
 });

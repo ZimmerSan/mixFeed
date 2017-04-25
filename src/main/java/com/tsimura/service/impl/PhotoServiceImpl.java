@@ -50,12 +50,12 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
-    public Integer countByOwnerId(int ownerId) {
+    public Long countByOwnerId(int ownerId) {
         return photoRepository.countByOwnerId(ownerId);
     }
 
     @Override
-    public Integer countByGroup(Group group) {
+    public Long countByGroup(Group group) {
         int ownerId = - Integer.valueOf(group.getId());
         return countByOwnerId(ownerId);
     }

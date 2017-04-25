@@ -31,7 +31,9 @@ public class GroupRestController {
 
     @GetMapping
     List<Group> readGroups() {
-        return groupService.findAll();
+        List<Group> groups = groupService.findAll();
+        groups.forEach(group -> group.setPhotosCount(photoService.countByGroup(group)));
+        return groups;
     }
 
     @PutMapping("/{groupId}")
@@ -51,6 +53,7 @@ public class GroupRestController {
         }
 
         Group group = groupService.findById(String.valueOf(-groupId)).get();
+        group.setPhotosCount(photoService.countByGroup(group));
         log.debug("group = {}", group);
         return group;
     }

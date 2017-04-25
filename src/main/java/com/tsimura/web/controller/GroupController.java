@@ -41,13 +41,8 @@ public class GroupController {
 
     @GetMapping("/groups")
     public String getGroups(Model model) {
-        Map<Group, Integer> countMap = new HashMap<>();
-
         List<Group> groups = groupService.findAll();
         model.addAttribute("groups", groups);
-
-        for (Group group : groups) countMap.put(group, photoService.countByGroup(group));
-        model.addAttribute("countMap", countMap);
 
         return "manage_groups";
     }

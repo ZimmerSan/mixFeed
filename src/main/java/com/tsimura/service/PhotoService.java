@@ -16,9 +16,9 @@ public interface PhotoService {
 
     Integer countByUserId(int userId);
 
-    Integer countByOwnerId(int ownerId);
+    Long countByOwnerId(int ownerId);
 
-    Integer countByGroup(Group group);
+    Long countByGroup(Group group);
 
     Integer groupsCountByUserId(int userId);
 

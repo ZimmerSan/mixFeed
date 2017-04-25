@@ -13,19 +13,21 @@ import javax.persistence.Table;
 public class Group {
 
     @Id
-    String id;
+    private String id;
 
     @Column(name = "name")
-    String name;
+    private String name;
 
     @Column(name = "screen_name")
-    String screenName;
+    private String screenName;
 
     @Column(name = "is_closed")
-    int isClosed;
+    private int isClosed;
 
     @Column(name = "photo_200")
-    String photo200;
+    private String photo200;
+
+    private Long photosCount;
 
     public Group() {
     }
